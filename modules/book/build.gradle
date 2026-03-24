@@ -1,10 +1,9 @@
 plugins {
     alias libs.plugins.android.library
-    alias libs.plugins.kotlin.android
 }
 
 android {
-    compileSdk = compile_sdk_version
+    compileSdk = 36
     namespace = 'me.ag2s'
     kotlin {
         jvmToolchain {
@@ -13,7 +12,6 @@ android {
     }
     defaultConfig {
         minSdk 21
-        targetSdk 36
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -25,10 +23,13 @@ android {
     }
     lint {
         checkDependencies = true
+        targetSdk 36
+    }
+    testOptions {
+        targetSdk 36
     }
 }
 
 dependencies {
     implementation(libs.androidx.annotation)
-    //implementation 'androidx.annotation:annotation:1.7.1'
 }
