@@ -25,6 +25,7 @@ import io.legado.app.constant.PreferKey
 import io.legado.app.databinding.ActivityMainBinding
 import io.legado.app.databinding.DialogEditTextBinding
 import io.legado.app.help.AppWebDav
+import io.legado.app.help.LifecycleHelp
 import io.legado.app.help.book.BookHelp
 import io.legado.app.help.config.AppConfig
 import io.legado.app.help.config.LocalConfig
@@ -59,9 +60,14 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import splitties.views.bottomPadding
 import kotlin.coroutines.resume
-import androidx.core.view.get
 import io.legado.app.help.update.AppUpdate
 import io.legado.app.ui.about.UpdateDialog
+import io.legado.app.ui.association.ImportDictRuleDialog
+import io.legado.app.ui.association.ImportHttpTtsDialog
+import io.legado.app.ui.association.ImportTxtTocRuleDialog
+import io.legado.app.utils.StringUtils
+import io.legado.app.utils.clearClip
+import io.legado.app.utils.getClipText
 import kotlin.time.Duration.Companion.hours
 
 /**
@@ -139,6 +145,7 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
             binding.viewPagerMain.postDelayed(1000) {
                 viewModel.ruleSubsUp()
             }
+            readShibboleth(1500)
             //自动更新书籍
             val isAutoRefreshedBook = savedInstanceState?.getBoolean("isAutoRefreshedBook") ?: false
             if (AppConfig.autoRefreshBook && !isAutoRefreshedBook) {
@@ -497,6 +504,43 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
             2 -> showDialogFragment(
                 ImportReplaceRuleDialog(source)
             )
+        }
+    }
+
+    /**
+     * 读取导入口令
+     */
+    fun readShibboleth(delay: Long) {
+        binding.viewPagerMain.postDelayed(delay) {
+            val text = this@MainActivity.getClipText()
+            if (!text.isNullOrBlank()) {
+                if ("#L:" in text) {
+                    this@MainActivity.clearClip() //清理一下防重复
+                    val (url, type, customWord) = StringUtils.unShibboleth(text)
+                    when(type) {
+                        StringUtils.BOOK_SOURCE ->
+                            showDialogFragment(ImportBookSourceDialog(url))
+                        StringUtils.RSS_SOURCE ->
+                            showDialogFragment(ImportRssSourceDialog(url))
+                        StringUtils.DICT_RULE ->
+                            showDialogFragment(ImportDictRuleDialog(url))
+                        StringUtils.REPLACE_RULE ->
+                            showDialogFragment(ImportReplaceRuleDialog(url))
+                        StringUtils.TOC_RULE ->
+                            showDialogFragment(ImportTxtTocRuleDialog(url))
+                        StringUtils.TTS_RULE ->
+                            showDialogFragment(ImportHttpTtsDialog(url))
+                        else -> showDialogFragment(ImportHttpTtsDialog(url))
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (LifecycleHelp.activitySize() == 1) {
+            readShibboleth(500)
         }
     }
 

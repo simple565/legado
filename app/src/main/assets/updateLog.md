@@ -4,6 +4,18 @@
 
 ## cronet版本: 128.0.6613.40
 
+**2026/07/15**
+- 新增导出链接为口令、自动识别口令导入
+
+**2026/07/04**
+- 链接规则支持head类型
+- 回调事件支持详情页点击标签
+- 详情页简介图片支持执行js，支持长按查看
+- 优化web端加载段评图片
+- 详情页简介支持用web渲染
+- 调整新用户预加载和搜索线程的默认值
+- 其余优化与修复
+
 **2026/03/07**
 - 优化代码，修复问题
 
@@ -75,7 +87,7 @@
 
 
 ## **必读**
-来源于fork仓库 [Luoyacheng/legado](https://github.com/Luoyacheng/legado)　  
+来源于fork仓库 [Luoyacheng/legado-E](https://github.com/Luoyacheng/legado-E)　  
 [查看实时详细日志](https://gitee.com/lyc486/legado/commits/main)　 
 
 【温馨提醒】 *更新前一定要做好备份，以免数据丢失！*  
@@ -83,7 +95,4 @@
 * 正文出现缺字漏字、内容缺失、排版错乱等情况，有可能是净化规则或简繁转换出现问题。
 ----
 
-* [2025年日志](https://github.com/Luoyacheng/legado/blob/record2025/app/src/main/assets/updateLog.md)　
-* [2023年日志](https://github.com/gedoor/legado/blob/record2023/app/src/main/assets/updateLog.md)　
-* [2022年日志](https://github.com/gedoor/legado/blob/record2022/app/src/main/assets/updateLog.md)　
-* [2021年日志](https://github.com/gedoor/legado/blob/record2021/app/src/main/assets/updateLog.md)　
+* [2025年日志](https://github.com/Luoyacheng/legado-E/blob/record2025/app/src/main/assets/updateLog.md)　
